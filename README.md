@@ -196,18 +196,7 @@ Request settlement negotiation and restructure repayment plan.
 
 ---
 
-# Team Members
 
-**Team Lead**
-
-* Katyayani Pilla
-
-**Team Members**
-
-* Keerthana Radharapu
-* Honey Kurapati
-* Mulukutla Akhila
-* Vyshnavi Dirisala
 
 ---
 
