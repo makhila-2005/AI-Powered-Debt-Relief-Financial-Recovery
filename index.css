@@ -1,0 +1,442 @@
+/* ---------- Design tokens ----------
+   Subject: a calm, trustworthy guide out of debt — not a bank, not an alarm.
+   Palette leans cool teal (trust, calm) with a warm gold accent (action) and
+   a muted rose (stress signal that never shouts). Avoids the default
+   cream+terracotta / near-black+neon looks.
+*/
+:root {
+  --bg-mist: #F5F8F8;
+  --bg-surface: #FFFFFF;
+  --ink-900: #132433;
+  --ink-600: #52646F;
+  --ink-400: #8496A0;
+
+  --teal-700: #0A5F5D;
+  --teal-600: #0E7C7B;
+  --teal-100: #DCEEED;
+
+  --amber-500: #E2A33E;
+  --amber-100: #FBEDD6;
+
+  --rose-500: #C1495B;
+  --rose-100: #F6E2E4;
+
+  --green-600: #3E8F63;
+  --green-100: #E1F1E7;
+
+  --border: #E1E8E7;
+  --shadow-sm: 0 1px 2px rgba(19, 36, 51, 0.06);
+  --shadow-md: 0 8px 24px rgba(19, 36, 51, 0.08);
+
+  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--bg-mist);
+  color: var(--ink-900);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Layout shell ---------- */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 232px;
+  flex-shrink: 0;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border);
+  padding: 28px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 8px;
+}
+
+.sidebar-brand-mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, var(--teal-600), var(--teal-700));
+  flex-shrink: 0;
+}
+
+.sidebar-brand span {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebar-nav a {
+  text-decoration: none;
+  color: var(--ink-600);
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.sidebar-nav a:hover {
+  background: var(--teal-100);
+  color: var(--teal-700);
+}
+
+.sidebar-nav a.active {
+  background: var(--teal-600);
+  color: white;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  font-size: 13px;
+  color: var(--ink-400);
+}
+
+.main-content {
+  flex: 1;
+  padding: 32px 40px;
+  max-width: 1100px;
+}
+
+.page-header {
+  margin-bottom: 28px;
+}
+
+.page-header h1 {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.page-header p {
+  color: var(--ink-600);
+  margin-top: 6px;
+  font-size: 14.5px;
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card .stat-label {
+  font-size: 12.5px;
+  color: var(--ink-600);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+.stat-card .stat-value {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 500;
+  margin-top: 6px;
+  color: var(--ink-900);
+}
+
+.stat-card .stat-sub {
+  font-size: 12.5px;
+  color: var(--ink-400);
+  margin-top: 4px;
+}
+
+/* ---------- Buttons & forms ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 11px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.08s ease, opacity 0.15s ease;
+  font-family: var(--font-body);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--teal-600);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--teal-700);
+}
+
+.btn-accent {
+  background: var(--amber-500);
+  color: var(--ink-900);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--teal-700);
+  border: 1px solid var(--border);
+}
+
+.btn-ghost:hover {
+  background: var(--teal-100);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.form-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-600);
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 14.5px;
+  background: var(--bg-mist);
+  color: var(--ink-900);
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus,
+.btn:focus-visible {
+  outline: 2px solid var(--teal-600);
+  outline-offset: 2px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
+}
+
+/* ---------- Badges ---------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-low { background: var(--green-100); color: var(--green-600); }
+.badge-moderate { background: var(--amber-100); color: #93650C; }
+.badge-high { background: var(--rose-100); color: var(--rose-500); }
+.badge-critical { background: var(--rose-500); color: white; }
+
+/* ---------- Auth pages ---------- */
+.auth-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 15% 20%, var(--teal-100), transparent 45%),
+    radial-gradient(circle at 85% 80%, var(--amber-100), transparent 40%),
+    var(--bg-mist);
+  padding: 20px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: 36px 32px;
+  box-shadow: var(--shadow-md);
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.auth-brand-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--teal-600), var(--teal-700));
+}
+
+.auth-brand span {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 19px;
+}
+
+.auth-error {
+  background: var(--rose-100);
+  color: var(--rose-500);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 13.5px;
+  margin-bottom: 14px;
+}
+
+.auth-switch {
+  margin-top: 18px;
+  font-size: 13.5px;
+  color: var(--ink-600);
+  text-align: center;
+}
+
+.auth-switch a {
+  color: var(--teal-700);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* ---------- Loans table ---------- */
+.loans-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.loans-table th {
+  text-align: left;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-400);
+  font-weight: 600;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.loans-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.loans-table tr:last-child td {
+  border-bottom: none;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--ink-600);
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  font-family: var(--font-display);
+}
+
+.letter-output {
+  white-space: pre-wrap;
+  font-size: 14px;
+  line-height: 1.6;
+  background: var(--bg-mist);
+  border-radius: var(--radius-sm);
+  padding: 18px;
+  border: 1px solid var(--border);
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .app-shell { flex-direction: column; }
+  .sidebar { width: 100%; flex-direction: row; overflow-x: auto; }
+  .sidebar-nav { flex-direction: row; }
+  .sidebar-footer { display: none; }
+  .main-content { padding: 20px; }
+  .form-grid, .two-col { grid-template-columns: 1fr; }
+}

@@ -1,205 +1,79 @@
-# AI Powered Debt Relief & Financial Recovery Platform
+# Clearway — AI-Powered Debt Relief & Financial Recovery Platform
 
-## Project Overview
+An AI-assisted platform that helps borrowers track loans, understand their debt
+stress, and generate lender-ready settlement negotiation letters.
 
-The **AI Powered Debt Relief & Financial Recovery Platform** is an intelligent AI-based financial assistance system designed to help borrowers manage debt, analyze financial conditions, and receive personalized settlement recommendations.
-
-The platform uses Artificial Intelligence and Generative AI techniques to simplify debt management by analyzing borrower financial information, identifying debt stress levels, generating settlement suggestions, and creating professional negotiation strategies.
-
----
-
-## Problem Statement
-
-Many borrowers struggle with managing loans due to financial difficulties, increasing EMIs, and overdue payments. Traditional debt management processes require manual analysis and negotiation.
-
-This project provides an AI-assisted solution that helps borrowers understand their financial health and make better debt recovery decisions.
-
----
-
-## Project Objectives
-
-* Analyze borrower financial conditions
-* Calculate debt stress levels
-* Generate personalized settlement recommendations
-* Create AI-powered negotiation letters
-* Provide financial health insights
-* Support better debt management decisions
-
----
-
-# Features
-
-## 1. AI-Powered Settlement Recommendation
-
-The system analyzes:
-
-* Loan outstanding amount
-* Monthly EMI
-* Monthly income
-* Overdue duration
-
-Based on financial parameters, the platform provides:
-
-* Debt stress analysis
-* EMI ratio calculation
-* Recommended settlement amount
-* Financial recovery suggestions
-
----
-
-## 2. Intelligent Negotiation Letter Generation
-
-Using Generative AI, the system creates professional lender negotiation messages.
-
-The generated letters include:
-
-* Borrower financial situation
-* Settlement request
-* Repayment capability
-* Professional communication format
-
----
-
-## 3. Financial Health Tracking
-
-The platform monitors:
-
-* Monthly income
-* EMI burden
-* Debt stress level
-* Settlement percentage
-* Loan repayment capability
-
----
-
-# Technology Stack
-
-## Programming Language
-
-* Python
-
-## Backend
-
-* FastAPI
-
-## Database
-
-* SQLite
-* SQLAlchemy ORM
-
-## Artificial Intelligence
-
-* Google Gemini API
-* Generative AI
-* Large Language Models (LLMs)
-* Prompt Engineering
-
-## Development Environment
-
-* Google Colab
-* Jupyter Notebook
-
----
-
-# System Architecture
+**Stack:** React.js (Vite) · FastAPI · SQLite + SQLAlchemy · Google Gemini API
 
 ```
-User Input
-    |
-    |
-Borrower Loan Details
-    |
-    |
-AI Financial Analysis Engine
-    |
-    |
-Debt Stress Calculation
-    |
-    |
-Settlement Recommendation
-    |
-    |
-Gemini AI Negotiation Generator
-    |
-    |
-Financial Guidance Output
+debt-relief-platform/
+├── backend/        FastAPI app, SQLAlchemy models, Gemini integration
+└── frontend/        React + Vite dashboard
 ```
 
----
+## 1. Backend setup
 
-# Project Workflow
+```bash
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
 
-1. Borrower enters loan details.
-
-2. System analyzes income, EMI, and outstanding debt.
-
-3. AI calculates financial stress level.
-
-4. Settlement recommendations are generated.
-
-5. Gemini AI creates negotiation letters.
-
-6. Borrower receives financial recovery guidance.
-
----
-
-# Sample Input
-
-```
-Loan Amount : 500000
-Monthly EMI : 25000
-Monthly Income : 40000
-Overdue Days : 90
+cp .env.example .env
+# edit .env: set SECRET_KEY and (optionally) GEMINI_API_KEY
 ```
 
----
+Run the API:
 
-# Sample Output
-
-```
-Debt Stress Level:
-High Debt Stress
-
-EMI Ratio:
-0.62
-
-Recommended Settlement:
-325000
-
-Recommendation:
-Request settlement negotiation and restructure repayment plan.
+```bash
+uvicorn app.main:app --reload --port 8000
 ```
 
----
+- API docs: http://localhost:8000/docs
+- SQLite database file (`debt_relief.db`) is created automatically on first run.
+- If `GEMINI_API_KEY` is left blank, the app still works end-to-end — negotiation
+  letters and AI insights fall back to a rules-based template instead of calling Gemini.
 
-# Skills Demonstrated
+## 2. Frontend setup
 
-* Python Programming
-* FastAPI Development
-* Database Management
-* Generative AI Integration
-* Gemini API Integration
-* Prompt Engineering
-* Responsible AI Concepts
-* Financial Data Analysis
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
----
+- App runs at http://localhost:5173
+- The Vite dev server proxies `/api/*` requests to `http://localhost:8000`
+  (see `vite.config.js`), so both servers need to be running together.
 
-# Future Enhancements
+## 3. Using the app
 
-* Real-time bank statement analysis
-* Mobile application support
-* Advanced ML-based repayment prediction
-* Cloud deployment
-* Secure borrower authentication
-* Multiple lender integration
+1. Register an account, then log in.
+2. Go to **Loans** and add each loan (lender, outstanding amount, EMI, overdue
+   days, monthly income).
+3. Visit **Financial Dashboard** to see your aggregate debt stress score and
+   monthly surplus.
+4. Visit **Settlement Predictor**, pick a loan, and run a prediction — this
+   stores a history record you can revisit later.
+5. Visit **AI Letter Generator**, pick a loan and tone, and generate a
+   negotiation email you can copy and send to your lender.
 
----
+## 4. How the "AI" works
 
+- **Financial analysis & settlement math** (`backend/app/services/financial_analysis.py`)
+  is a transparent, deterministic rules engine — EMI-to-income ratio, an overdue
+  severity factor, and a debt-to-annual-income multiple combine into a 0-100
+  debt stress score, which then drives a settlement percentage and strategy
+  (lump sum / structured plan / hardship program).
+- **Gemini AI** (`backend/app/services/gemini_service.py`) takes those numbers
+  and turns them into a natural-language insight and a full negotiation letter
+  tailored to tone (professional / firm / hardship-focused). If no API key is
+  configured, or a Gemini call fails, the app falls back to a clear template so
+  the feature never breaks the user experience.
 
+## 5. Security notes for production
 
----
-
-# Conclusion
-
-The AI Powered Debt Relief & Financial Recovery Platform provides an intelligent approach to debt management by combining financial analysis with Generative AI. The system helps borrowers understand their financial situation, negotiate effectively, and make informed repayment decisions.
+- Replace `SECRET_KEY` with a long random value and never commit `.env`.
+- Swap SQLite for Postgres/MySQL by changing `DATABASE_URL`.
+- Add HTTPS, rate limiting, and refresh tokens before deploying publicly.
+- Restrict `CORS_ORIGINS` to your real frontend domain.
